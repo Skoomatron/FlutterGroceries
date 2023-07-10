@@ -30,7 +30,13 @@ class _NewItemScreenState extends State<NewItemScreen> {
                   label: Text("Name"),
                 ),
                 validator: (value) {
-                  return 'Invalid Value';
+                  if (value == null ||
+                      value.isEmpty ||
+                      value.trim().length > 50 ||
+                      value.trim().length <= 1) {
+                    return "Entry must be between 1 and 50 characters in length.";
+                  }
+                  return null;
                 },
               ),
               Row(
@@ -38,6 +44,15 @@ class _NewItemScreenState extends State<NewItemScreen> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            int.tryParse(value) == null ||
+                            int.tryParse(value)! <= 0) {
+                          return "Entry must be a valid positive number.";
+                        }
+                        return null;
+                      },
                       decoration: const InputDecoration(
                         label: Text("Quantity"),
                       ),
@@ -70,6 +85,16 @@ class _NewItemScreenState extends State<NewItemScreen> {
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(onPressed: () {}, child: const Text("Reset")),
+                  ElevatedButton(onPressed: () {}, child: const Text("Submit")),
+                ],
+              )
             ],
           ),
         ),
